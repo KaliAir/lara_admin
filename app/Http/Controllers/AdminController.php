@@ -7,6 +7,7 @@ use App\Traits\HttpResponse;
 use Illuminate\Support\Facades\Auth;
 use Session;
 use App\Models\Inquiry;
+use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
@@ -64,6 +65,8 @@ class AdminController extends Controller
 
     function search(Request $request){
 
+        //$length = Str::length($request->search);
+
         $inquiry = Inquiry::where('name', 'like', "%{$request->search}%")
         ->orWhere('last_name', 'like', "%{$request->search}%")
         ->orWhere('email', 'like', "%{$request->search}%")
@@ -72,7 +75,8 @@ class AdminController extends Controller
         ->orderBy('id', 'desc')->get();
         
         return $this->success([
-            'inquiry' => $inquiry
+            'inquiry' => $inquiry,
+            //'string' => $length
         ]);
     }
 
